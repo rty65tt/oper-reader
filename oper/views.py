@@ -29,7 +29,6 @@ cleaner.safe_attrs_only = False
 
 url = 'https://oper.ru'
 
-
 def cleanhtml(o):
     rattr = ['style', 'width', 'height']
 
@@ -37,6 +36,15 @@ def cleanhtml(o):
         p = '//*[@' + a + ']'
         for s in o.xpath(p):
             s.attrib.pop(a)
+
+def get_page(u, clean=True):
+    r = requests.get(u)
+    soup = BeautifulSoup(r.text, 'html.parser')
+    o = html.fromstring(soup.prettify().encode('UTF-8'))
+    if clean:
+        cleanhtml(o)
+    return o
+
 
 def format_news(md):
     md = md.replace(u'»','')
@@ -55,10 +63,8 @@ def main(request):
     else:
         u=url
     
-    r = requests.get(u)
-    o = html.fromstring(r.text.encode('utf-8'))
+    o = get_page(u)
     
-    cleanhtml(o)
     arch = o.xpath('//p[@class="categories"]')[0]
     etree.strip_tags(arch,'b')
     p = etree.tostring(arch, encoding='unicode')
@@ -96,14 +102,13 @@ def main(request):
 
 def comments_format(comments, com):
     for i in comments:
-        nick = i.xpath('./tr/td[1]/a/font/b')[0].text_content()
-        color = i.xpath('./tr/td[1]/a/font')[0].get('color')
+        nick = i.xpath('./tr/td[@class="text13"]/a/font/b')[0].text_content()
+        color = i.xpath('./tr/td[@class="text13"]/a/font')[0].get('color')
         posted = i.xpath('./tr/td[2]/table/tr/td[1]/span/span[@class="posted"]')[0].text_content()
         posted = posted.replace(u'отправлено ','')
         num = i.xpath('./tr/td[2]/table/tr/td[2]/a')[0].get('href')
         num = num.replace('#','')
         comment = etree.tostring(i.xpath('./tr/td[2]/font/div')[0], encoding='unicode')
-
 #        comment = re.sub(r'(<div id="quote\d+">)(.+?)</div>', r'\1<div>\2</div></div>' , comment)
 #        comment = re.sub(r'<br>', r'</div><div>', comment)
 #        comment = comment.replace(u'&#13;<br />', '</div><div>')
@@ -117,9 +122,7 @@ def comm(c,p,link):
         p = 20
     while i<p:
         u = link + '&page=%s' % i
-        r = requests.get(u)
-        o = html.fromstring(r.text.encode('utf-8'))
-        cleanhtml(o)
+        o = get_page(u)
         comments = o.xpath('//table[@class="comment"]')
         c = comments_format(comments, c)
         i = i+1
@@ -142,9 +145,7 @@ def get_comments(o, u):
 def forum(request):
     if request.method == "GET" and "t" in request.GET:
         u = url + '/news/read.php?t=%s' % request.GET['t']
-        r = requests.get(u)
-        o = html.fromstring(r.text.encode('utf-8'))
-        cleanhtml(o)
+        o = get_page(u)
         title = o.xpath('//h1')[0]
         n = o.xpath('//dl')[0]
         etree.strip_tags(n,'font')
@@ -152,7 +153,6 @@ def forum(request):
         me = o.xpath('//p[@class="meta"]')
         for i in me:
             etree.strip_tags(i,'a')
-
         
         h1 = etree.tostring(title, encoding='unicode')
         n = etree.tostring(n, encoding='unicode')
@@ -171,8 +171,9 @@ def stenogramma(request):
     if request.method == "GET" and "t" in request.GET:
         u = u + '?t=%s' % request.GET['t']
     
+        #o = get_page(u)
         r = requests.get(u)
-        o = html.fromstring(r.text.encode('utf-8'))
+        o = html.fromstring(r.text.encode('UTF-8'))
 
         h1 = o.xpath('//h1')[0].text_content()
         text = o.xpath('//div[@class="body"]')[0]
@@ -185,7 +186,7 @@ def stenogramma(request):
 
         n = etree.tostring(text, encoding='unicode')
 
-        cs = get_comments(o, u)
+        cs = []# get_comments(o, u)
 
         return render(request, "text.html", 
             {'h1':h1, 'n':n, 'cs':cs, 'u':u})
@@ -196,10 +197,9 @@ def stenogramma(request):
 def gallery(request):
     if request.method == "GET" and "t" in request.GET:
         u = url + '/gallery/view.php?t=%s' % request.GET['t']
-        r = requests.get(u)
-        o = html.fromstring(r.text.encode('utf-8'))
+
+        o = get_page(u)
         
-        cleanhtml(o)
         title = o.xpath('//h1')[0]
         h1 = etree.tostring(title, encoding='unicode')
 
@@ -220,13 +220,11 @@ def gallery(request):
     else:
         u = url + '/gallery/'
 
-    r = requests.get(u)
-    o = html.fromstring(r.text.encode('utf-8'))
+    o = get_page(u, clean=False)
     
     title = o.xpath('//h1')[0]
     h1 = etree.tostring(title, encoding='unicode')
     n = etree.tostring(o.xpath('//p[@class="categories"]')[0], encoding='unicode')
-
 
     imglist = o.xpath('//ins[@class="thumbnail"]')
 
@@ -245,10 +243,8 @@ def archive(request):
     if request.method == "GET" and "year" in request.GET:
         u = u + '?year=%s' % request.GET['year']
 
-    r = requests.get(u)
-    o = html.fromstring(r.text.encode('utf-8'))
+    o = get_page(u)
     
-    cleanhtml(o)
     title = o.xpath('//h1')[0]
     n = o.xpath('//p[@class="categories"]')[0]
     news = o.xpath('//table[@class="comment"]/tr')

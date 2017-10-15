@@ -49,6 +49,7 @@ urlpatterns = [
     url(r'^favicon\.ico$', favicon_ico_view),
     url(r'^favicon\.png$', favicon_png_view),
 
+
     url(r'^$', views.main)
-] #+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]  #+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
