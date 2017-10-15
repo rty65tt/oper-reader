@@ -1,0 +1,10 @@
+venv
+*.pyc
+staticfiles
+.env
+sftp-config.json
+django_cache
+_cache
+tmp
+*.hide
+db.sqlite3

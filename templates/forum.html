@@ -1,0 +1,114 @@
+
+<a name="begin"></a>
+<div class="comment-head">
+    <div class="comment-title">
+        <div class="h2">Комментарии</div>
+    </div>
+    <div class="users-list">
+        <div class="script-loading">список комментаторов: <span class="blink">[загрузка]</span></div>
+    </div>
+</div>
+<div class="nav-link">
+    <a href="#down">низ&darr;</a>
+</div>
+
+<div class="comments">
+    {% for c in cs %}
+    <a name="{{ c.num }}"></a>
+    <div class="comment {% cycle 'tc1' 'tc2' %}" name="{{ c.nick }}" color="{{ c.color }}">
+        <table class="post-info">
+            <tr>
+                <td class="td-nick">
+                    <div class="nick">
+                        <a href="javascript:vinfo('{{ c.nick }}');">
+                            <font class="nick-color" color="{{ c.color }}">{{ c.nick }}</font>
+                        </a>
+                        <span class="count"></span>
+                        <span class="date-posted">[{{ c.posted }}]</span>
+                    </div>
+                </td>
+                <td class="td-number">
+                    <div class="number">
+                        <a href="#{{ c.num }}">#{{ c.num }}</a></td>
+                    </div>
+            </tr>
+        </table>
+        <div class="post-text">
+            {% autoescape off %}{{ c.comment }}{% endautoescape %}
+        </div>
+        <div class="link-to-begin">
+            <a href="#begin">в начало&uarr;</a>
+        </div>
+    </div>
+    {% endfor %}
+<div class="l-to-comm">
+    {% for c in cs %}
+        <a class="ufilteroff" href="#{{ c.num }}">[{{ c.num }}]</a>
+    {% endfor %}
+</div>
+</div>
+
+
+<div class="orig-site">
+    <a target="_blank" href="{{ u }}">{{ u }}</a>
+</div>
+<br>
+
+<script>
+(function() {
+    'use strict';
+
+    var aftory = ['Sha-Yulin', 'Zhukoff', 'egoryakovlev', 'Баир Иринчеев', 'Игорь Леонардович Викентьев', 'Goblin', 'Ravid', 'Рогов', 'kredov'];
+
+    var page = '';
+    var arr = [];
+
+        $('.comment .post-text').find("a").attr('href', function( i,vl ) {
+            return vl.replace(/(read.php\?t=\d+)\&page=\d+(#\d+)$/, '$1$2');
+        }).attr('class', 'showcom');
+
+        var usrs = {};
+        $('.comment').each(function() {
+            var n = $(this).attr('name');
+            var color = $(this).attr('color');
+            if (usrs[n]) {
+                usrs[n].c = usrs[n].c + 1;
+            } else {
+                usrs[n] = {};
+                usrs[n].c = 1;
+                usrs[n].s = color;
+            }
+            $(this).find('span.count').text('[' + usrs[n].c + ']')
+        });
+        var ludi = '';
+        var narodishka = '';
+        for(var u in usrs) {
+            var d = '<a href="#1" name="' + u + '" class="ufilter" style="color:' + usrs[u].s + ' !important;">' + u + '[' + usrs[u].c + ']' + '</a> ';
+            
+            if (aftory.indexOf(u) !== -1) {
+                ludi = ludi + d;
+            } else { narodishka = narodishka + d;}
+        }
+        var lblock = '<div class="ludi">' + ludi + '</div>';
+        var nblock = '<div class="narodishka">' + narodishka + '</div>';
+        var filteroff = '<a href="#comments" class="ufilteroff">[Выкл.фильтр]</a>'
+        setTimeout(function() { // setTimeout - это для извращеных тестов
+            $('.users-list').html(lblock + '<hr>' + nblock + '<hr>' + filteroff);
+            $('.ufilter').click(function() {
+                $('.comment').hide();
+                $('.comment[name="'+ $(this).attr('name') +'"]').show();
+            });
+            $('.ufilteroff').click(function() {
+                $('.comment').show();
+            });
+            $('.showcom').click(function() {
+                var t = $(this).text().replace(/#(\d+)$/, '$1');
+                $('a[name="' + t + '"]').next().show(400);
+            });
+            $('.usrscriptpage').click(function() {
+                $('.comment').show();
+            });
+        },100); // setTimeout - это для извращеных тестов
+})();
+</script>
+

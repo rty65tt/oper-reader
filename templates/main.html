@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="news-list">
+{% autoescape off %}
+    {{ m }}
+    {{ p }}
+{% endautoescape %}
+</div>
+{% endblock %}
+
+
+{% block right %}
+
+{% autoescape off %}{{ b1 }}{{ b2 }}{% endautoescape %}
+
+<a class="twitter-timeline" href="https://twitter.com/goblin_oper" width="240" height="500" data-widget-id="345101975194566656" data-chrome="nofooter" data-related="goblin_oper,oper_ru" data-theme="dark" data-link-color="#FFA719" lang="ru"></a>
+
+<script>!function(d,s,id){ var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){ js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+{% endblock %}

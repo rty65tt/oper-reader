@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="stenogramma">
+    <div class="h1">{{ h1 }}</div>
+{% autoescape off %}
+    {{ n }}
+{% endautoescape %}
+</div>
+
+{% include "forum.html" %}
+
+{% endblock %}

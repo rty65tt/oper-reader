@@ -1,0 +1,6 @@
+Django==1.8.15
+beautifulsoup4
+requests
+lxml
+gunicorn
+whitenoise

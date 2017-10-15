@@ -1,0 +1,33 @@
+
+$lnk = '&, &:link, &:active, &:visited'
+$hvr = '&:hover'
+
+box-sizing(arg=border-box)
+  -webkit-box-sizing:arg
+  -moz-box-sizing:arg
+  box-sizing:arg
+
+border-radius(arg=0.3em)
+  -webkit-border-radius:arg
+  -moz-border-radius:arg
+  border-radius:arg
+
+box-shadow(args...)
+  -webkit-box-shadow:args;
+  -moz-box-shadow:args;
+  box-shadow:args;
+
+
+bg-linear-gradient(l_color,d_color)
+  background-color: l_color;
+  background-image: -webkit-linear-gradient(top, l_color, d_color);
+  background-image: -moz-linear-gradient(top, l_color, d_color);
+  background-image: -ms-linear-gradient(top, l_color, d_color);
+  background-image: -o-linear-gradient(top, l_color, d_color);
+
+
+transition(property, duration, function, delay)
+  -webkit-transition:property duration function delay
+  -moz-transition:property duration function delay
+  -o-transition:property duration function delay
+  transition:property duration function delay

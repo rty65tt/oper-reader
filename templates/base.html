@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="yandex-tableau-widget" content="logo=/stat/logo.png, color=#5d9164">
+<link href="/stat/apple-touch-icon.png" rel="apple-touch-icon" />
+
+<link href="/stat/android-icon-normal.png" rel="icon" sizes="128x128" />
+
+    <link href="https://fonts.googleapis.com/css?family=Noto Sans&amp;subset=cyrillic" rel="stylesheet">
+    <!-- 
+    <link href="https://fonts.googleapis.com/css?family=Jura&amp;subset=cyrillic" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&amp;subset=cyrillic" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Podkova&amp;subset=cyrillic" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu&amp;subset=cyrillic" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=PT Sans&amp;subset=cyrillic" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open Sans&amp;subset=cyrillic" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto Slab&amp;subset=cyrillic" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Anonymous Pro&amp;subset=cyrillic" rel="stylesheet">
+ -->
+    <link rel="icon" type="image/png" href="/stat/favicon.png?5">
+
+    <link rel="stylesheet" href="/stat/css/reset-v2.0.css">
+    <link rel="stylesheet" href="/stat/css/main.css?2017101301">
+    <!-- <link rel="stylesheet" href="/stat/css/main.css?{% now "His" %}"> -->
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="/stat/js/main.js?1"></script>
+
+    <script type="text/javascript"></script>
+    <title>{{ h1|striptags }}</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <a name="up"></a>
+      <table>
+        <tr>
+          <td class="td-left">
+            <div class="head"></div>
+            <header>
+              <nav>
+                <div class="menu">
+                  <a href="/" class="top-menu">Новости</a>
+                  <a target="_blank" href="https://catalog.oper.ru/" class="top-menu">Видео</a>
+                  <a href="/gallery/" class="top-menu">Картинки</a>
+                  <a target="_blank" href="https://oper.ru/donate/" class="top-menu">Проекты</a>
+                  <a target="_blank" href="https://oper.ru/follow/opershop" class="top-menu">Магазин</a>
+                  <a href="/about" class="top-menu">[?]</a>
+                </div>
+
+            </header>
+            <div class="main">
+              {% block content %}{% endblock %}
+              <div class="clr"></div>
+              <footer>
+                <div class="footer">
+                  <div class="nav-link">
+                    <a href="#up">верх&uarr;</a>
+                  </div>
+                  <br><br><br>
+                  <center><a class="oper-link" target="_blank" href="https://oper.ru/">oper.ru</a>
+                  <br><br><br><br><br><br><br><br><br><br><br>
+                </div>
+              </footer>
+            </div>
+          </td>
+          <td class="td-right">
+            <div class="right">{% block right %}{% endblock %}</div>
+          </td>
+        </tr>
+      </table>
+
+
+    </div>
+  <!-- YouTube lazy embed -->
+  <script type="text/javascript">
+    ( function() {
+      var youtube = document.querySelectorAll(".youtube");
+      
+      for (var i = 0; i < youtube.length; i++) {
+        
+       // var source = "https://i.ytimg.com/vi_webp/"+ youtube[i].dataset.embed +"/sddefault.webp";
+        var source = "https://i1.ytimg.com/vi/"+ youtube[i].dataset.embed +"/hqdefault.jpg";
+
+
+            var di = document.createElement("div");
+            di.className = "embed-yt-img";
+            di.style.backgroundImage = "url(" + source + ")";
+
+            di.addEventListener("load", function() {
+              youtube[i].innerHTML = "";
+              youtube[i].appendChild(di);
+            }(i));
+
+            youtube[i].addEventListener("click", function() {
+
+              var iframe = document.createElement("iframe");
+
+              iframe.setAttribute("frameborder", "0");
+              iframe.setAttribute("allowfullscreen", "");
+              iframe.setAttribute("src", "https://www.youtube.com/embed/"+ this.dataset.embed +"?rel=0&showinfo=0&autoplay=1" );
+
+              this.innerHTML = "";
+              this.appendChild(iframe);
+            } );
+      };
+      
+    } )();
+  </script>
+  <a name="down"></a>
+  </body>
+</html>

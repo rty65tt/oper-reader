@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="forum">
+    {% autoescape off %}
+    {{ h1 }}
+    {{ n }}
+    {% endautoescape %}
+</div>
+
+{% include "forum.html" %}
+
+
+{% endblock %}

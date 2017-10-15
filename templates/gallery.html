@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="gallery">
+{% autoescape off %}
+{{ h1 }}
+{{ n }}
+{% endautoescape %}
+
+<div class="imglist">
+
+    {% for i in il %}
+        {% autoescape off %}{{ i.img }}{% endautoescape %}
+    {% endfor %}
+
+</div>
+</div>
+
+<br><br><br>
+
+{% endblock %}
+
+
+

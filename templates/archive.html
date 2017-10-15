@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="archive">
+    {% autoescape off %}
+    {{ h1 }}
+    {{ n }}
+    {% endautoescape %}
+    <table class="arch-table">
+    {% for c in cs %}
+        <tr class="{% cycle 'tr1' 'tr2' %}">
+            <td class="td-date">{{ c.date }}</td>
+            <td class="td-link">{% autoescape off %}{{ c.link }}{% endautoescape %}</td>
+            <td class="td-kolcom">{{ c.kolcom }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+</div>
+
+
+{% endblock %}
+
+
+
+
