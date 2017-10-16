@@ -31,7 +31,6 @@ url = 'https://oper.ru'
 
 def cleanhtml(o):
     rattr = ['style', 'width', 'height']
-
     for a in rattr:
         p = '//*[@' + a + ']'
         for s in o.xpath(p):
@@ -52,7 +51,7 @@ def format_news(md):
     md = md.replace(u'src="/static/','src="https://oper.ru/static/')
     md = md.replace(u'href="/donate/','href="https://oper.ru/donate/')
     md = md.replace(u'src="/video/','src="https://oper.ru/video/')
-    md = re.sub(r'<iframe name=(\".+?\").+>(.+?)</iframe>', 
+    md = re.sub(r'\<iframe.+name=(\".+?\").+?>([\s\S]+?)\</iframe>', 
             r'<div class="youtube" data-embed=\1>\2</div>' , md)
     return md
 
@@ -79,8 +78,6 @@ def main(request):
     me = o.xpath('//p[@class="meta"]')
     for i in me:
         etree.strip_tags(i,'a')
-
-
 
     b1 = o.xpath("//*[@id='right']/div[@class='block']")[0]
     b2 = o.xpath("//*[@id='right']/div[@class='block']")[1]
