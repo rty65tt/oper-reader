@@ -39,7 +39,7 @@ def cleanhtml(o):
 def get_page(u, clean=True):
     r = requests.get(u)
     soup = BeautifulSoup(r.text, 'html.parser')
-    o = html.fromstring(soup.prettify().encode('UTF-8'))
+    o = html.fromstring(soup.encode('UTF-8'))
     if clean:
         cleanhtml(o)
     return o
