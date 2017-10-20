@@ -38,7 +38,8 @@ def cleanhtml(o):
 
 def get_page(u, clean=True):
     r = requests.get(u)
-    soup = BeautifulSoup(r.text, 'html.parser')
+    # TEST - http://212.109.218.94/news/read.php?t=1051619787
+    soup = BeautifulSoup(r.text)
     o = html.fromstring(soup.encode('UTF-8'))
     if clean:
         cleanhtml(o)
@@ -79,16 +80,15 @@ def main(request):
     for i in me:
         etree.strip_tags(i,'a')
 
-    b1 = o.xpath("//*[@id='right']/div[@class='block']")[0]
-    b2 = o.xpath("//*[@id='right']/div[@class='block']")[1]
+    b1 = o.xpath('//td/div[@id="right"]/div[@class="block"]')[0]
+    b2 = o.xpath('//td/div[@id="right"]/div[@class="block"]')[1]
 
-    for bad in b1.xpath("//*[@id='right']/div[@class='block']/h3"):
+    for bad in o.xpath('//*[@id="right"]/div[@class="block"]/h3'):
         bad.getparent().remove(bad)
 
-    
     md = etree.tostring(m, encoding='unicode')
     md = format_news(md)
-    
+
     e1 = etree.tostring(b1, encoding='unicode')
     e2 = etree.tostring(b2, encoding='unicode')
     e2 = e2.replace('src="/','src="https://oper.ru/')
