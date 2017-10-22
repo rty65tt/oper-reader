@@ -2,5 +2,6 @@ Django==1.8.15
 beautifulsoup4
 requests
 lxml
+html5lib
 gunicorn
 whitenoise
