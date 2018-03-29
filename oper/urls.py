@@ -29,7 +29,6 @@ favicon_png_view = RedirectView.as_view(url='/stat/favicon.png', permanent=True)
 
 
 urlpatterns = [
-#    url(r'^admin/', include(admin.site.urls)),
 
     url(r'^news/read.php$', views.forum),
     
@@ -48,6 +47,8 @@ urlpatterns = [
 
     url(r'^favicon\.ico$', favicon_ico_view),
     url(r'^favicon\.png$', favicon_png_view),
+
+    url(r'^robots\.txt$', views.robots_txt_view),
 
 
     url(r'^$', views.main)

@@ -13,7 +13,6 @@ from oper.settings import BASE_DIR
 # Create your views here.
 
 from lxml import html, etree
-from urllib2 import urlopen
 import re
 
 from lxml.html.clean import Cleaner
@@ -23,9 +22,6 @@ cleaner.javascript = False
 cleaner.scripts = False
 cleaner.style = True
 cleaner.safe_attrs_only = False
-#cleaner.whitelist_tags = ['embed', 'iframe']
-#cleaner.safe_attrs = ['data-embed']
-#cleaner._tag_link_attrs = {'a': 'href', 'applet': ['code', 'object'], 'embed': 'src', 'iframe': 'src', 'layer': 'src', 'link': 'href', 'script': 'src', 'div':'data-embed'}
 
 url = 'https://oper.ru'
 
@@ -38,13 +34,11 @@ def cleanhtml(o):
 
 def get_page(u, clean=True):
     r = requests.get(u)
-    # TEST - http://212.109.218.94/news/read.php?t=1051619787
     soup = BeautifulSoup(r.text)
     o = html.fromstring(soup.encode('UTF-8'))
     if clean:
         cleanhtml(o)
     return o
-
 
 def format_news(md):
     md = md.replace(u'»','')
@@ -58,6 +52,7 @@ def format_news(md):
 
 @cache_page(60)
 def main(request):
+
     if request.method == "GET" and "page" in request.GET:
         u = url + '?page=%s' % request.GET['page']
     else:
@@ -106,10 +101,6 @@ def comments_format(comments, com):
         num = i.xpath('./tr/td[2]/table/tr/td[2]/a')[0].get('href')
         num = num.replace('#','')
         comment = etree.tostring(i.xpath('./tr/td[2]/font/div')[0], encoding='unicode')
-#        comment = re.sub(r'(<div id="quote\d+">)(.+?)</div>', r'\1<div>\2</div></div>' , comment)
-#        comment = re.sub(r'<br>', r'</div><div>', comment)
-#        comment = comment.replace(u'&#13;<br />', '</div><div>')
-#        comment = re.sub(r'<span class="quoted">(.+?)</span>', r'<div class="quoted">\1</div>' , comment)
         com.append({'nick':nick,'color':color,'posted':posted,'num':num,'comment':comment})
     return com
 
@@ -270,19 +261,10 @@ def archive(request):
 def donate(request, kassa):
     return redirect('https://oper.ru/donate/' + kassa)
 
-
-
 def about(request):
     return render(request, "about.html")
 
 
-def mail(request):
-  t = ('%s' % time.strftime('%Y%m%d%H%M%S'))
-  f_path = os.path.join(BASE_DIR, 'msg-' + t + '.txt')
-  if request.method == "POST" and 'message' in request.POST:
-    text = request.POST.get('message')
-    text = unicodedata.normalize('NFC', text)
-    text = clean_html(text)
-    f=open(f_path,'w+')
-    f.write(text.encode('utf8'))
-    f.close()
+def robots_txt_view(request):
+    s = "User-agent: *\nDisallow: /\n"
+    return HttpResponse(s, content_type="text/plain")
