@@ -8,3 +8,4 @@ _cache
 tmp
 *.hide
 db.sqlite3
+githide*.txt

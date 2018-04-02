@@ -38,7 +38,7 @@ def get_page(u, clean=True):
     o = html.fromstring(soup.encode('UTF-8'))
     if clean:
         cleanhtml(o)
-    return o
+    return o, r.url.replace(u'https://oper.ru/', '/'), r.url != u
 
 def format_news(md):
     md = md.replace(u'»','')
@@ -58,7 +58,7 @@ def main(request):
     else:
         u=url
     
-    o = get_page(u)
+    o, l, r = get_page(u)
     
     arch = o.xpath('//p[@class="categories"]')[0]
     etree.strip_tags(arch,'b')
@@ -110,7 +110,7 @@ def comm(c,p,link):
         p = 20
     while i<p:
         u = link + '&page=%s' % i
-        o = get_page(u)
+        o, l, r = get_page(u)
         comments = o.xpath('//table[@class="comment"]')
         c = comments_format(comments, c)
         i = i+1
@@ -133,12 +133,17 @@ def get_comments(o, u):
 def forum(request):
     if request.method == "GET" and "t" in request.GET:
         u = url + '/news/read.php?t=%s' % request.GET['t']
-        o = get_page(u)
-        title = o.xpath('//h1')[0]
-        n = o.xpath('//dl')[0]
-        etree.strip_tags(n,'font')
-        etree.strip_tags(n,'b')
-        me = o.xpath('//p[@class="meta"]')
+        o, l, r = get_page(u)
+        if r:
+            return redirect(l)
+        try:
+            title = o.xpath('//h1')[0]
+            n = o.xpath('//dl')[0]
+            etree.strip_tags(n,'font')
+            etree.strip_tags(n,'b')
+            me = o.xpath('//p[@class="meta"]')
+        except:
+            return redirect('/')
         for i in me:
             etree.strip_tags(i,'a')
         
@@ -159,7 +164,7 @@ def stenogramma(request):
     if request.method == "GET" and "t" in request.GET:
         u = u + '?t=%s' % request.GET['t']
     
-        #o = get_page(u)
+        #o, l, r = get_page(u)
         r = requests.get(u)
         o = html.fromstring(r.text.encode('UTF-8'))
 
@@ -186,7 +191,7 @@ def gallery(request):
     if request.method == "GET" and "t" in request.GET:
         u = url + '/gallery/view.php?t=%s' % request.GET['t']
 
-        o = get_page(u)
+        o, l, r = get_page(u)
         
         title = o.xpath('//h1')[0]
         h1 = etree.tostring(title, encoding='unicode')
@@ -231,7 +236,7 @@ def archive(request):
     if request.method == "GET" and "year" in request.GET:
         u = u + '?year=%s' % request.GET['year']
 
-    o = get_page(u)
+    o, l, r = get_page(u)
     
     title = o.xpath('//h1')[0]
     n = o.xpath('//p[@class="categories"]')[0]

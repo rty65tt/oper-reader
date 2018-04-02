@@ -50,7 +50,6 @@ urlpatterns = [
 
     url(r'^robots\.txt$', views.robots_txt_view),
 
-
     url(r'^$', views.main)
 ]  #+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
