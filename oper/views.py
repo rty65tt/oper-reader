@@ -41,7 +41,7 @@ def get_page(u, clean=True):
     return o, r.url.replace(u'https://oper.ru/', '/'), r.url != u
 
 def format_news(md):
-    md = md.replace(u'»','')
+    md = md.replace(u' »','')
     md = md.replace(u'href="/static/','href="https://oper.ru/static/')
     md = md.replace(u'src="/static/','src="https://oper.ru/static/')
     md = md.replace(u'href="/donate/','href="https://oper.ru/donate/')
