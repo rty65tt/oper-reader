@@ -42,6 +42,7 @@ def get_page(u, clean=True):
 
 def format_news(md):
     md = md.replace(u' »','')
+    md = md.replace(u'Главная новость','<span style="color:#c00;">*</span>')
     md = md.replace(u'href="/static/','href="https://oper.ru/static/')
     md = md.replace(u'src="/static/','src="https://oper.ru/static/')
     md = md.replace(u'href="/donate/','href="https://oper.ru/donate/')
