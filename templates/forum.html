@@ -29,8 +29,9 @@
                 </td>
                 <td class="td-number">
                     <div class="number">
-                        <a href="#{{ c.num }}">#{{ c.num }}</a></td>
+                        <a href="#{{ c.num }}">#{{ c.num }}</a>
                     </div>
+                </td>
             </tr>
         </table>
         <div class="post-text">
@@ -41,11 +42,11 @@
         </div>
     </div>
     {% endfor %}
-<div class="l-to-comm">
-    {% for c in cs %}
-        <a class="ufilteroff" href="#{{ c.num }}">[{{ c.num }}]</a>
-    {% endfor %}
-</div>
+    <div class="l-to-comm">
+        {% for c in cs %}
+            <a class="ufilteroff" href="#{{ c.num }}">[{{ c.num }}]</a>
+        {% endfor %}
+    </div>
 </div>
 
 

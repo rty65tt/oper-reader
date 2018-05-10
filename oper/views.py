@@ -214,7 +214,7 @@ def gallery(request):
     else:
         u = url + '/gallery/'
 
-    o = get_page(u, clean=False)
+    o, l, r = get_page(u, clean=False)
     
     title = o.xpath('//h1')[0]
     h1 = etree.tostring(title, encoding='unicode')
