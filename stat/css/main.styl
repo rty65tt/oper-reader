@@ -2,6 +2,14 @@
 
 // ********************************************************************
 // Определение стиля основных тегов
+::-moz-selection {
+ background-color:#0078D7;
+ color:#000000;
+}
+::selection {
+ background-color:#0078D7;
+ color:#000000;
+}
 
 html
   overflow-y scroll
@@ -60,9 +68,9 @@ a
   {$lnk}
     text-decoration none
     cursor pointer
-    color #94804c
+    color #1b8649
   {$hvr}
-    color #94804C
+    color #1b8649
     text-decoration underline
 
 p
@@ -95,7 +103,7 @@ p
       font-size 130%
       color #444
     {$hvr}
-      color #94804C
+      color #1b8649
 
 .td-left
   width 740px
@@ -313,12 +321,12 @@ div.comment
         color #aaa
       
       a
-        color #4a5521
+        color #085f3c
       
     .masked
       color #944
     a
-      color #94804c
+      color #1b8649
       word-break break-all
       word-wrap break-word
       {$hvr}
@@ -347,7 +355,7 @@ div.comment
 
 .archive
   a
-    color #94804c
+    color #94804C
     {$hvr}
       text-decoration underline
       
