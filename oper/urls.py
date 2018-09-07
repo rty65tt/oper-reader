@@ -43,6 +43,7 @@ urlpatterns = [
 
     url(r'^donate/([\w]+)', views.donate),
     url(r'^about', views.about),
+    url(r'^visitors/info.php', views.vinfo),
     #url(r'^mail', views.mail),
 
     url(r'^favicon\.ico$', favicon_ico_view),

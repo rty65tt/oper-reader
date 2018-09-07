@@ -270,6 +270,14 @@ def donate(request, kassa):
 def about(request):
     return render(request, "about.html")
 
+def vinfo(request):
+    if request.method == "GET" and "t" in request.GET:
+        u = url + '/visitors/info.php?t=%s' % request.GET['t']
+        o, l, r = get_page(u)
+        a = etree.tostring(o, encoding='unicode')
+        a = format_news(a)
+        a = re.sub(r'http:\/\/oper.ru\/news', r'/news' , a)
+    return HttpResponse(a)
 
 def robots_txt_view(request):
     s = "User-agent: *\nDisallow: /\n"
