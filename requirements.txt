@@ -1,7 +1,8 @@
-Django==1.8.15
+Django
 beautifulsoup4
 requests
 lxml
+lxml_html_clean
 html5lib
 gunicorn
 whitenoise
