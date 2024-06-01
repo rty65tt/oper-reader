@@ -18,8 +18,8 @@ import re
 from lxml.html.clean import Cleaner
 
 cleaner = Cleaner()
-cleaner.javascript = False
-cleaner.scripts = False
+cleaner.javascript = True
+cleaner.scripts = True
 cleaner.style = True
 cleaner.safe_attrs_only = False
 
@@ -35,7 +35,7 @@ def cleanhtml(o):
 def get_page(u, clean=True):
     r = requests.get(u)
     soup = BeautifulSoup(r.text)
-    o = html.fromstring(soup.encode('UTF-8'))
+    o = cleaner.clean_html(html.fromstring(soup.encode('UTF-8')))
     if clean:
         cleanhtml(o)
     return o, r.url.replace(u'https://oper.ru/', '/'), r.url != u
