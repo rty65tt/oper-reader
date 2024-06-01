@@ -29,7 +29,6 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
-
 # Application definition
 
 INSTALLED_APPS = (
@@ -121,11 +120,17 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://.djangoproject.com/en/1.8/howto/static-files/
+
 
 STATIC_URL = 'stat/'
 STATIC_ROOT = BASE_DIR / 'stat'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+# STATICFILES_DIRS = [
+#     BASE_DIR / "stat",
+#     "/var/www/static/",
+# ]
 
 # STORAGES = {
 #     # ...

@@ -56,5 +56,5 @@ urlpatterns = [
     path('robots.txt', views.robots_txt_view),
 
     path('', views.main)
-]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]  #+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
